@@ -1,0 +1,9 @@
+Beams:frameType = 2
+
+Beams:idA = 2212
+Beams:idB = 2212
+
+Beams:eA = 158
+Beams:eB = 0
+
+SoftQCD:inelastic = on
