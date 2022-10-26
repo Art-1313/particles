@@ -1,5 +1,6 @@
 *.DS_Store
 *.root
 ._SHiP
+*.csv
 scintillator/._lab-scint-2021.pdf
 SHiP/catboost_info

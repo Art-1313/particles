@@ -6,4 +6,4 @@ Beams:idB = 2212
 Beams:eA = 158
 Beams:eB = 0
 
-SoftQCD:inelastic = on
+SoftQCD:all = on
