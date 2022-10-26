@@ -1,6 +1,6 @@
 *.DS_Store
 *.root
 ._SHiP
-*.csv
+Diploma/PP 158/data/generated/*.csv
 scintillator/._lab-scint-2021.pdf
 SHiP/catboost_info
