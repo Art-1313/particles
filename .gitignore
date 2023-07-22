@@ -1,7 +1,10 @@
 *.DS_Store
 *.root
 ._SHiP
-PP 158/data/generated/*.csv
+*.csv
+*.txt
+*.bin
+*.cmnd
 scintillator/._lab-scint-2021.pdf
 SHiP/catboost_info
 *.ipynb_checkpoints
