@@ -8,3 +8,7 @@
 scintillator/._lab-scint-2021.pdf
 SHiP/catboost_info
 *.ipynb_checkpoints
+dist.png
+out.html
+test.py
+res.ipynb
