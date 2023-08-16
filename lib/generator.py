@@ -59,7 +59,7 @@ def calc_metric(func, xsect, err, ref, bins, id):
     return np.where(np.isnan(res), 0, res)
 
 
-def get_score(data: pd.DataFrame, sigma: float, n_events: int, bins: np.ndarray, refs: dict):
+def get_score(data: pd.DataFrame, sigma: float, n_events: int, bins: np.ndarray, refs: dict, agregate=None):
 
     xsect, err = xsect_calc(data, sigma, n_events, bins)
 
@@ -69,7 +69,9 @@ def get_score(data: pd.DataFrame, sigma: float, n_events: int, bins: np.ndarray,
 
         res.append(np.mean(calc_metric(chi_square, xsect, err, ref, bins, id)))
 
-    return np.sum(res)
+    if agregate: return agregate(res)
+    
+    else: return res
 
 
 def check_bin(xF: float, pT: float, bins: np.ndarray):
@@ -88,6 +90,9 @@ def check_bin(xF: float, pT: float, bins: np.ndarray):
 def generate(n_events: int, instructions: dict, bins: np.ndarray):
 
     pythia = pythia8.Pythia("", False)
+
+    pythia.readString(f'Random:setSeed  = on')
+    pythia.readString(f'Random:seed  = {np.random.randint(0, 90000000)}')
 
     for inst, val in instructions.items():
     
