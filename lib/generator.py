@@ -39,7 +39,7 @@ def chi_square(y_hat, y, y_hat_err, y_err):
 
 def calc_metric(func, xsect, err, ref, bins, id):
 
-    res = []
+    res = list(np.full(shape=(len(bins),), fill_value=np.nan))
 
     for num, bin in enumerate(bins):
 
@@ -53,25 +53,27 @@ def calc_metric(func, xsect, err, ref, bins, id):
             y_hat_err = err[(err['bin'] == num) * (err['id'] == id)]['err'].values[0]
             y_err=ref['error'][mask].values[0]
 
-            res.append(func(y_hat=y_hat, y=y,
-                            y_hat_err=y_hat_err, y_err=y_err))
+            res[num] = func(y_hat=y_hat, y=y,
+                            y_hat_err=y_hat_err, y_err=y_err)
 
-    return np.where(np.isnan(res), 0, res)
+    return res
 
 
 def get_score(data: pd.DataFrame, sigma: float, n_events: int, bins: np.ndarray, refs: dict, agregate=None):
 
     xsect, err = xsect_calc(data, sigma, n_events, bins)
 
-    res = []
+    reses = []
 
     for id, ref in refs.items():
 
-        res.append(np.mean(calc_metric(chi_square, xsect, err, ref, bins, id)))
+        res = calc_metric(chi_square, xsect, err, ref, bins, id)
+        res_clean = np.array(res)[~np.isnan(res)]
+        reses.append(np.mean(res_clean))
 
-    if agregate: return agregate(res)
+    if agregate: return agregate(reses)
     
-    else: return res
+    else: return reses
 
 
 def check_bin(xF: float, pT: float, bins: np.ndarray):
