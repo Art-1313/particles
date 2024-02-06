@@ -36,6 +36,13 @@ def chi_square(y_hat, y, y_hat_err, y_err):
 
     return (y_hat - y) ** 2 / (y_hat_err ** 2 + y_err ** 2)
 
+def chi_square_fair(y_hat, y, y_hat_err, y_err):
+
+    fairness = y_err ** 2 / y ** 2
+    chi_square = (y_hat - y) ** 2 / (y_hat_err ** 2 + y_err ** 2)
+
+    return chi_square * fairness
+
 
 def calc_metric(func, xsect, err, ref, bins, id):
 
@@ -59,7 +66,9 @@ def calc_metric(func, xsect, err, ref, bins, id):
     return res
 
 
-def get_score(data: pd.DataFrame, sigma: float, n_events: int, bins: np.ndarray, refs: dict, agregate=None):
+def get_score(data: pd.DataFrame, sigma: float, n_events: int,
+              bins: np.ndarray, refs: dict, metric,
+              agregate=None):
 
     xsect, err = xsect_calc(data, sigma, n_events, bins)
 
@@ -67,7 +76,7 @@ def get_score(data: pd.DataFrame, sigma: float, n_events: int, bins: np.ndarray,
 
     for id, ref in refs.items():
 
-        res = calc_metric(chi_square, xsect, err, ref, bins, id)
+        res = calc_metric(metric, xsect, err, ref, bins, id)
         res_clean = np.array(res)[~np.isnan(res)]
         reses.append(np.mean(res_clean))
 
