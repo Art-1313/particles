@@ -13,3 +13,6 @@ out.html
 test.py
 res.ipynb
 venv
+pythia8310
+__pycache__/
+test*
